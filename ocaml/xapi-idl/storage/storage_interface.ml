@@ -206,8 +206,7 @@ type vdi_info = {
   ; (* sm_config: workaround via XenAPI *)
     metadata_of_pool: string [@default ""]
   ; is_a_snapshot: bool [@default false]
-  ; snapshot_time: string
-        [@default Xapi_stdext_date.Date.to_string Xapi_stdext_date.Date.never]
+  ; snapshot_time: string [@default Xapi_stdext_date.Date.(to_rfc3339 epoch)]
   ; snapshot_of: Vdi.t [@default Vdi.of_string ""]
   ; (* managed: workaround via XenAPI *)
     read_only: bool [@default false]
@@ -354,7 +353,7 @@ module Errors = struct
     | Cancelled of string
     | Redirect of string option
     | Sr_attached of string
-    | Sr_unhealthy of sr_health
+    | Sr_unhealthy of string * sr_health
     | Unimplemented of string
     | Activated_on_another_host of uuid
     | Duplicated_key of string

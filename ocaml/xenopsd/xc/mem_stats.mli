@@ -1,5 +1,5 @@
 (*
- * Copyright (C) 2006-2009 Citrix Systems Inc.
+ * Copyright (C) Citrix Systems Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
@@ -11,17 +11,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *)
-(** Represents local sessions, for use in emergency mode *)
 
-type t = {r: API.ref_session; pool: bool; last_active: Xapi_stdext_date.Date.t}
+val start : unit -> Rrdd_plugin.Reporter.t
+(** Start a thread which will act as an RRDD plugin, and report interesting
+    stats to RRDD. *)
 
-val get_all : __context:Context.t -> API.ref_session list
+val stop : Rrdd_plugin.Reporter.t -> unit
+(** Stop the stats reporting thread. *)
 
-val create : __context:Context.t -> pool:bool -> API.ref_session
-
-val get_record : __context:Context.t -> self:API.ref_session -> t
-
-val destroy : __context:Context.t -> self:API.ref_session -> unit
-
-val local_session_hook :
-  __context:Context.t -> session_id:API.ref_session -> bool
+val generate_stats : unit -> (Rrd.ds_owner * Ds.ds) list
