@@ -301,7 +301,6 @@ def main(argv):
 
     # set up library preload path for qemu such that it can use jemalloc
     qemu_env = os.environ
-    qemu_env["MALLOC_CONF"] = "narenas:1,tcache:false"
 
     sys.stdout.flush()
     sys.stderr.flush()
